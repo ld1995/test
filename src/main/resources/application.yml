@@ -1,0 +1,10 @@
+
+keystore:
+  location: "/home/ITRANSITION.CORP/l.petrov/Documents/storenew9.jks"
+  storepass: ${KEYSTORE_STOREPASS}
+  type: 'jks'
+  key:
+    password: ${KEYSTORE_KEY_PASSWORD}
+    alias: ${KEYSTORE_KEY_ALIAS}
+server:
+  port: 9090
