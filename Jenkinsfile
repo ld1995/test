@@ -2,6 +2,7 @@ pipeline {
     agent {
         docker {
             image 'maven:3.8.1-adoptopenjdk-11'
+            alwaysPull false
         }
     }
     stages {
@@ -16,7 +17,12 @@ pipeline {
             }
         }
         stage('Docker Build') {
-            agent any
+            agent {
+                docker {
+                    image "openjdk:11"
+                    alwaysPull false
+                }
+            }
             steps {
                 sh 'docker build -t ld1995/test:latest .'
             }
