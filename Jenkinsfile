@@ -27,11 +27,13 @@ pipeline {
             //        additionalBuildArgs  '--build-arg version=1.0.2'
             //        args '-v /tmp:/tmp'
             //    }
-            script {
-                def dockerImage = docker.build("ld1995/test:latest", "-t .")
-                docker.withRegistry('', dockerHub) {
-                    dockerImage.push("ld1995/test")
-                    dockerImage.push('latest')
+            steps {
+                script {
+                    def dockerImage = docker.build("ld1995/test:latest", "-t .")
+                    docker.withRegistry('', dockerHub) {
+                        dockerImage.push("ld1995/test")
+                        dockerImage.push('latest')
+                    }
                 }
             }
 //            agent any
