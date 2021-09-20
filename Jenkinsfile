@@ -16,11 +16,13 @@ pipeline {
             }
         }
         stage('Docker Build') {
+            agent any
             steps {
                 sh 'docker build -t ld1995/test:latest .'
             }
         }
         stage('Docker Push') {
+            agent any
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                     sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
