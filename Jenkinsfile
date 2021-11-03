@@ -7,6 +7,11 @@ pipeline {
 //            image 'maven:3.8.1-adoptopenjdk-11'
 //            alwaysPull false
 //        }
+    parameters {
+        choice(name: 'ENV', choices: ['test', 'qa'], defaultValue: 'test', description: 'An environment type.')
+        string(name: 'SPRINT', defaultValue: 'VXXX.X', description: 'The Fix Version for the build.')
+        string(name: 'BRANCH', defaultValue: 'release', description: 'Which branch to use.')
+    }
     stages {
         //pipeline {
         //    agent any
@@ -47,17 +52,15 @@ pipeline {
         stage ("Prompt for input") {
             steps {
                 script {
-                    env.USERNAME = input message: 'Please enter the username',
-                            parameters: [string(defaultValue: '',
-                                    description: '',
-                                    name: 'Username')]
-                    env.PASSWORD = input message: 'Please enter the password',
-                            parameters: [password(defaultValue: '',
-                                    description: '',
-                                    name: 'Password')]
+                    env.ENV = input message: 'Please select an environment',
+                            parameters: [choice(name: 'ENV', choices: ['test', 'qa'], defaultValue: 'test', description: 'An environment type.')]
+                    env.SPRINT = input message: 'Please enter the sprint tag',
+                            parameters: [string(name: 'SPRINT', defaultValue: 'VXXX.X', description: 'The Fix Version for the build.')]
+                    env.BRANCH = input message: 'Please enter the branch name',
+                            parameters: [string(name: 'BRANCH', defaultValue: 'release', description: 'Which branch to use.')]
                 }
-                echo "Username: ${env.USERNAME}"
-                echo "Password: ${env.PASSWORD}"
+                echo "SPRINT: ${env.SPRINT}"
+                echo "Password: ${env.BRANCH}"
             }
         }
         stage('Test') {
