@@ -51,17 +51,18 @@ pipeline {
         //}
         stage ("Prompt for input") {
             environment {
-                ENV_NAME=params.ENV.toUpperCase()
+                ENV=params.ENV.toUpperCase()
             }
             steps {
                 echo "SPRINT: $SPRINT"
                 echo "BRANCH: $BRANCH"
-                echo $ENV_NAME
+                echo $ENV
             }
         }
         stage('Test') {
             steps {
                 script {
+                    sh "echo $ENV"
                     sh 'mvn clean test'
                     sh 'mvn clean install'
                 }
