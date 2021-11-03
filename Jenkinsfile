@@ -1,7 +1,10 @@
 pipeline {
-    environment {
-        dockerImage = ''
-    }
+    properties([
+            parameters([
+                    string(name: 'SPRINT', defaultValue: 'VXXX.X', description: 'The Fix Version for the build.'),
+                    string(name: 'BRANCH', defaultValue: 'release', description: 'Which branch to use'),
+            ])
+    ])
     agent any
     tools {
         maven 'Maven'
@@ -13,7 +16,7 @@ pipeline {
     stages {
         stage('Test') {
             steps {
-                sh 'mvn --version'
+                sh 'echo $SPRINT $BRANCH'
                 sh 'mvn clean test'
                 sh 'mvn clean install'
             }
