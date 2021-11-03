@@ -12,6 +12,9 @@ pipeline {
         string(name: 'SPRINT', defaultValue: 'VXXX.X', description: 'The Fix Version for the build.')
         string(name: 'BRANCH', defaultValue: 'release', description: 'Which branch to use.')
     }
+    environment {
+        APP_NAME = "${ENV.toUpperCase()}-application"
+    }
     stages {
         //pipeline {
         //    agent any
@@ -54,6 +57,7 @@ pipeline {
                 echo "SPRINT: $SPRINT"
                 echo "BRANCH: $BRANCH"
                 echo "ENV: ${ENV.toUpperCase()}"
+                echo "App: $APP_NAME"
             }
         }
         stage('Test') {
