@@ -53,7 +53,7 @@ pipeline {
             steps {
                 echo "SPRINT: $SPRINT"
                 echo "BRANCH: $BRANCH"
-                echo "ENV:" ${ENV.toUpperCase()}
+                echo "ENV: ${ENV.toUpperCase()}"
             }
         }
         stage('Test') {
