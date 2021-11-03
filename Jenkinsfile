@@ -8,7 +8,7 @@ pipeline {
 //            alwaysPull false
 //        }
     parameters {
-        choice(name: 'ENV', choices: ['test', 'qa'], defaultValue: 'test', description: 'An environment type.')
+        choice(name: 'ENV', choices: ['test', 'qa'], description: 'An environment type.')
         string(name: 'SPRINT', defaultValue: 'VXXX.X', description: 'The Fix Version for the build.')
         string(name: 'BRANCH', defaultValue: 'release', description: 'Which branch to use.')
     }
@@ -53,7 +53,7 @@ pipeline {
             steps {
                 script {
                     env.ENV = input message: 'Please select an environment',
-                            parameters: [choice(name: 'ENV', choices: ['test', 'qa'], defaultValue: 'test', description: 'An environment type.')]
+                            parameters: [choice(name: 'ENV', choices: ['test', 'qa'], description: 'An environment type.')]
                     env.SPRINT = input message: 'Please enter the sprint tag',
                             parameters: [string(name: 'SPRINT', defaultValue: 'VXXX.X', description: 'The Fix Version for the build.')]
                     env.BRANCH = input message: 'Please enter the branch name',
