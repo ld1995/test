@@ -2,17 +2,16 @@ pipeline {
     environment {
         dockerImage = ''
     }
-    agent {
+    agent any
 //        docker {
 //            image 'maven:3.8.1-adoptopenjdk-11'
 //            alwaysPull false
 //        }
-    }
     stages {
         stage('Test') {
             steps {
-                maven('clean test')
-                maven('clean install')
+                sh 'mvn clean test'
+                sh 'clean install'
             }
         }
 //        stage('Docker Build') {
