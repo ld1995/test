@@ -51,16 +51,17 @@ pipeline {
         //}
         stage ("Prompt for input") {
             steps {
-                script {
-                    env.ENV = input message: 'Please select an environment',
-                            parameters: [choice(name: 'ENV', choices: ['test', 'qa'], description: 'An environment type.')]
-                    env.SPRINT = input message: 'Please enter the sprint tag',
-                            parameters: [string(name: 'SPRINT', defaultValue: 'VXXX.X', description: 'The Fix Version for the build.')]
-                    env.BRANCH = input message: 'Please enter the branch name',
-                            parameters: [string(name: 'BRANCH', defaultValue: 'release', description: 'Which branch to use.')]
-                }
+//                script {
+//                    env.ENV = input message: 'Please select an environment',
+//                            parameters: [choice(name: 'ENV', choices: ['test', 'qa'], description: 'An environment type.')]
+//                    env.SPRINT = input message: 'Please enter the sprint tag',
+//                            parameters: [string(name: 'SPRINT', defaultValue: 'VXXX.X', description: 'The Fix Version for the build.')]
+//                    env.BRANCH = input message: 'Please enter the branch name',
+//                            parameters: [string(name: 'BRANCH', defaultValue: 'release', description: 'Which branch to use.')]
+//                }
                 echo "SPRINT: ${env.SPRINT}"
-                echo "Password: ${env.BRANCH}"
+                echo "BRANCH: ${env.BRANCH}"
+                echo "ENV: ${env.ENV}"
             }
         }
         stage('Test') {
