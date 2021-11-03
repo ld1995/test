@@ -51,7 +51,7 @@ pipeline {
         //}
         stage ("Prompt for input") {
             environment {
-                ENV_NAME=$ENV.toUpperCase()
+                ENV_NAME=params.ENV.toUpperCase()
             }
             steps {
                 echo "SPRINT: $SPRINT"
