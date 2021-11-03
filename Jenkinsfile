@@ -44,14 +44,25 @@ pipeline {
         //        }
         //    }
         //}
+        stage ("Prompt for input") {
+            steps {
+                script {
+                    env.USERNAME = input message: 'Please enter the username',
+                            parameters: [string(defaultValue: '',
+                                    description: '',
+                                    name: 'Username')]
+                    env.PASSWORD = input message: 'Please enter the password',
+                            parameters: [password(defaultValue: '',
+                                    description: '',
+                                    name: 'Password')]
+                }
+                echo "Username: ${env.USERNAME}"
+                echo "Password: ${env.PASSWORD}"
+            }
+        }
         stage('Test') {
             steps {
                 script {
-
-                    parameters(
-                            string(name: 'SPRINT', defaultValue: 'VXXX.X', description: 'The Fix Version for the build.'),
-                            string(name: 'BRANCH', defaultValue: 'release', description: 'Which branch to use'),
-                    )
 
 //                    properties([
 //                            parameters([
@@ -78,7 +89,6 @@ pipeline {
 //                                    )
 //                            ])
 //                    ])
-                    echo $SPRINT $BRANCH
                     sh 'mvn clean test'
                     sh 'mvn clean install'
                 }
