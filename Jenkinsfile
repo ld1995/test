@@ -1,9 +1,4 @@
 pipeline {
-
-    parameters(
-            string(name: 'SPRINT', defaultValue: 'VXXX.X', description: 'The Fix Version for the build.'),
-            string(name: 'BRANCH', defaultValue: 'release', description: 'Which branch to use'),
-    )
     agent any
     tools {
         maven 'Maven'
@@ -13,13 +8,81 @@ pipeline {
 //            alwaysPull false
 //        }
     stages {
+        //pipeline {
+        //    agent any
+        //    stages {
+        //        stage('Setup parameters') {
+        //            steps {
+        //                script {
+        //                    properties([
+        //                        parameters([
+        //                            choice(
+        //                                choices: ['ONE', 'TWO'],
+        //                                name: 'PARAMETER_01'
+        //                            ),
+        //                            booleanParam(
+        //                                defaultValue: true,
+        //                                description: '',
+        //                                name: 'BOOLEAN'
+        //                            ),
+        //                            text(
+        //                                defaultValue: '''
+        //                                this is a multi-line
+        //                                string parameter example
+        //                                ''',
+        //                                 name: 'MULTI-LINE-STRING'
+        //                            ),
+        //                            string(
+        //                                defaultValue: 'scriptcrunch',
+        //                                name: 'STRING-PARAMETER',
+        //                                trim: true
+        //                            )
+        //                        ])
+        //                    ])
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
         stage('Test') {
             steps {
-                echo $SPRINT $BRANCH
-                sh 'mvn clean test'
-                sh 'mvn clean install'
+                script {
+
+                    parameters(
+                            string(name: 'SPRINT', defaultValue: 'VXXX.X', description: 'The Fix Version for the build.'),
+                            string(name: 'BRANCH', defaultValue: 'release', description: 'Which branch to use'),
+                    )
+
+//                    properties([
+//                            parameters([
+//                                    choice(
+//                                            choices: ['ONE', 'TWO'],
+//                                            name: 'PARAMETER_01'
+//                                    ),
+//                                    booleanParam(
+//                                            defaultValue: true,
+//                                            description: '',
+//                                            name: 'BOOLEAN'
+//                                    ),
+//                                    text(
+//                                            defaultValue: '''
+//                                                    this is a multi-line
+//                                                    string parameter example
+//                                                    ''',
+//                                            name: 'MULTI-LINE-STRING'
+//                                    ),
+//                                    string(
+//                                            defaultValue: 'scriptcrunch',
+//                                            name: 'STRING-PARAMETER',
+//                                            trim: true
+//                                    )
+//                            ])
+//                    ])
+                    echo $SPRINT $BRANCH
+                    sh 'mvn clean test'
+                    sh 'mvn clean install'
+                }
             }
-        }
 //        stage('Docker Build') {
 //            //dockerfile {
 //            //        filename 'Dockerfile.build'
@@ -51,5 +114,6 @@ pipeline {
 //                }
 //            }
 //        }
+        }
     }
 }
