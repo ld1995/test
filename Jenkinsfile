@@ -3,6 +3,9 @@ pipeline {
         dockerImage = ''
     }
     agent any
+    tools {
+        maven 'Maven'
+    }
 //        docker {
 //            image 'maven:3.8.1-adoptopenjdk-11'
 //            alwaysPull false
@@ -10,6 +13,7 @@ pipeline {
     stages {
         stage('Test') {
             steps {
+                sh 'mvn --version'
                 sh 'mvn clean test'
                 sh 'clean install'
             }
