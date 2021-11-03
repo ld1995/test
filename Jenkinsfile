@@ -50,19 +50,15 @@ pipeline {
         //    }
         //}
         stage ("Prompt for input") {
-            environment {
-                ENV=params.ENV.toUpperCase()
-            }
             steps {
                 echo "SPRINT: $SPRINT"
                 echo "BRANCH: $BRANCH"
-                echo $ENV
+                echo ${ENV.toUpperCase()}
             }
         }
         stage('Test') {
             steps {
                 script {
-                    sh "echo $ENV"
                     sh 'mvn clean test'
                     sh 'mvn clean install'
                 }
