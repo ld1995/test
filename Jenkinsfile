@@ -7,14 +7,10 @@ pipeline {
 //            image 'maven:3.8.1-adoptopenjdk-11'
 //            alwaysPull false
 //        }
-    parameters {
-        choice(name: 'ENV', choices: ['test', 'qa'], description: 'An environment type.')
-        string(name: 'SPRINT', defaultValue: 'VXXX.X', description: 'The Fix Version for the build.')
-        string(name: 'BRANCH', defaultValue: 'release', description: 'Which branch to use.')
-    }
-    environment {
-        APP_NAME = "${ENV.toUpperCase()}-application"
-    }
+    git([url: 'git@github.com:ld1995/test.git', branch: 'master'])
+//    git branch: 'master',
+//            credentialsId: '12345-1234-4696-af25-123455',
+//            url: 'ssh://git@bitbucket.org:company/repo.git' //https://github.com/ld1995/test
     stages {
         //pipeline {
         //    agent any
@@ -52,14 +48,6 @@ pipeline {
         //        }
         //    }
         //}
-        stage("Prompt for input") {
-            steps {
-                echo "SPRINT: $SPRINT"
-                echo "BRANCH: $BRANCH"
-                echo "ENV: ${ENV.toUpperCase()}"
-                echo "App: $APP_NAME"
-            }
-        }
         stage('Test') {
             steps {
                 script {
@@ -69,15 +57,6 @@ pipeline {
             }
         }
     }
-
-//    post {
-//            always {
-//                node('awesome_node_label') {
-//                    step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: "ld1995@tut.by", sendToIndividuals: false])
-//                }
-//            }
-//        }
-
     post {
         always {
             mail(
