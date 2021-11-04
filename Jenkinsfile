@@ -79,11 +79,11 @@ pipeline {
 //        }
 
     post {
-        failure {
+        always {
             mail(
                     to: "ld1995@tut.by",
-                    subject: 'The Pipeline failed',
-                    body: "$APP_NAME Pipeline filed for envirement: $ENV <br>Branch Number: $BRANCH <br> Sprint Number: $SPRINT"
+                    subject: 'The Pipeline finished',
+                    body: "$APP_NAME Pipeline finished for envirement: $ENV <br>Branch Number: $BRANCH <br> Sprint Number: $SPRINT"
             )
         }
     }
