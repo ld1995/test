@@ -82,8 +82,8 @@ pipeline {
         always {
             mail(
                     to: "ld1995@tut.by",
-                    subject: 'The Pipeline finished',
-                    body: "$APP_NAME Pipeline finished for envirement: $ENV <br>Branch Number: $BRANCH <br> Sprint Number: $SPRINT"
+                    subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}",
+                    body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}"
             )
         }
     }
