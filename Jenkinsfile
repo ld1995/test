@@ -67,6 +67,19 @@ pipeline {
                     sh 'mvn clean install'
                 }
             }
+        }
+        post {
+//        always {
+//            junit '**/target/*.xml'
+//        }
+            failure {
+                mail(
+                        to: "ld1995@tut.by",
+                        subject: 'The Pipeline failed',
+                        body: "$APP_NAME Pipeline filed for envirement: $ENV <br>Branch Number: $BRANCH <br> Sprint Number: $SPRINT"
+                )
+            }
+        }
 //        stage('Docker Build') {
 //            //dockerfile {
 //            //        filename 'Dockerfile.build'
@@ -98,6 +111,5 @@ pipeline {
 //                }
 //            }
 //        }
-        }
     }
 }
