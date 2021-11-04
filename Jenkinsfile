@@ -68,18 +68,24 @@ pipeline {
                 }
             }
         }
+
         post {
-//        always {
-//            junit '**/target/*.xml'
-//        }
-            failure {
-                mail(
-                        to: "ld1995@tut.by",
-                        subject: 'The Pipeline failed',
-                        body: "$APP_NAME Pipeline filed for envirement: $ENV <br>Branch Number: $BRANCH <br> Sprint Number: $SPRINT"
-                )
+            always {
+                node('awesome_node_label') {
+                    step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: "ld1995@tut.by", sendToIndividuals: false])
+                }
             }
         }
+
+//        post {
+//            failure {
+//                mail(
+//                        to: "ld1995@tut.by",
+//                        subject: 'The Pipeline failed',
+//                        body: "$APP_NAME Pipeline filed for envirement: $ENV <br>Branch Number: $BRANCH <br> Sprint Number: $SPRINT"
+//                )
+//            }
+//        }
 //        stage('Docker Build') {
 //            //dockerfile {
 //            //        filename 'Dockerfile.build'
