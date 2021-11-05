@@ -10,12 +10,14 @@ pipeline {
 //    git branch: 'master',
 //            credentialsId: '12345-1234-4696-af25-123455',
 //            url: 'ssh://git@bitbucket.org:company/repo.git' //https://github.com/ld1995/test
+    git branch: 'master',
+            url: 'https://github.com/ld1995/test.git'
     stages {
-        stage('Checkout') {
-            steps {
-                git branch: 'master', url: 'git@github.com:ld1995/test.git'
-            }
-        }
+//        stage('Checkout') {
+//            steps {
+//                git branch: 'master', url: 'ssh://git@github.com:ld1995/test.git', credentialsId: ''
+//            }
+//        }
         //pipeline {
         //    agent any
         //    stages {
