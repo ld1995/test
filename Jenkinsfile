@@ -7,11 +7,15 @@ pipeline {
 //            image 'maven:3.8.1-adoptopenjdk-11'
 //            alwaysPull false
 //        }
-    git([url: 'git@github.com:ld1995/test.git', branch: 'master'])
 //    git branch: 'master',
 //            credentialsId: '12345-1234-4696-af25-123455',
 //            url: 'ssh://git@bitbucket.org:company/repo.git' //https://github.com/ld1995/test
     stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'master', url: 'git@github.com:ld1995/test.git'
+            }
+        }
         //pipeline {
         //    agent any
         //    stages {
