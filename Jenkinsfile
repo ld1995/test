@@ -43,10 +43,10 @@ pipeline {
         stage('Trigger build') {
             steps {
                 build job: 'displayParams', parameters: [
-                        string(name: 'BUILD_NUMBER', value: $BUILD_NUMBER),
-                        string(name: 'ENV', value: $ENV),
-                        string(name: 'SPRINT', value: $SPRINT),
-                        string(name: 'BRANCH', value: $BRANCH),
+                        string(name: 'BUILD_NUMBER', value: BUILD_NUMBER),
+                        string(name: 'ENV', value: ENV),
+                        string(name: 'SPRINT', value: SPRINT),
+                        string(name: 'BRANCH', value: BRANCH),
                 ]
             }
         }
@@ -55,8 +55,8 @@ pipeline {
         always {
             mail(
                     to: "ld1995@tut.by",
-                    subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}",
-                    body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}"
+                    subject: "Jenkins Build ${currentBuild.currentResult}: Job $JOB_NAME",
+                    body: "${currentBuild.currentResult}: Job $JOB_NAME build $BUILD_NUMBER\n More info at: $BUILD_URL"
             )
         }
     }
