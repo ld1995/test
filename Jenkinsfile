@@ -36,8 +36,7 @@ pipeline {
             steps {
                 sh """
                     cd "$WORKSPACE/"
-                    echo $CLOUD_APP
-                    tar czf ${CLOUD_APP}.tgz bootstrap target/*-0.0.1-SNAPSHOT.jar
+                    tar czf ${CLOUD_APP}.tgz target/*-0.0.1-SNAPSHOT.jar
                 """
             }
         }
