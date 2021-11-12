@@ -3,63 +3,52 @@ pipeline {
     tools {
         maven 'Maven'
     }
-//        docker {
-//            image 'maven:3.8.1-adoptopenjdk-11'
-//            alwaysPull false
-//        }
-//    git branch: 'master',
-//            credentialsId: '12345-1234-4696-af25-123455',
-//            url: 'ssh://git@bitbucket.org:company/repo.git' //https://github.com/ld1995/test
+    parameters {
+        choice(
+                name: 'ENV',
+                choices: ['test', 'qa', 'live', 'copy'],
+                description: 'An environment type.'
+        )
+        string(
+                name: 'SPRINT',
+                defaultValue: 'VXXX.X',
+                description: 'The Fix Version for the build.'
+        )
+        string(
+                name: 'BRANCH',
+                defaultValue: 'release',
+                description: 'Which branch to use.'
+        )
+    }
+    environment {
+        CLOUD_APP = "$ENV-miscellaneous-$BUILD_NUMBER"
+    }
     stages {
-        stage('Checkout') {
-            steps {
-                git branch: 'master',
-                        url: 'https://github.com/ld1995/test.git'
-//                git branch: 'master', url: 'ssh://git@github.com:ld1995/test.git', credentialsId: ''
-            }
-        }
-        //pipeline {
-        //    agent any
-        //    stages {
-        //        stage('Setup parameters') {
-        //            steps {
-        //                script {
-        //                    properties([
-        //                        parameters([
-        //                            choice(
-        //                                choices: ['ONE', 'TWO'],
-        //                                name: 'PARAMETER_01'
-        //                            ),
-        //                            booleanParam(
-        //                                defaultValue: true,
-        //                                description: '',
-        //                                name: 'BOOLEAN'
-        //                            ),
-        //                            text(
-        //                                defaultValue: '''
-        //                                this is a multi-line
-        //                                string parameter example
-        //                                ''',
-        //                                 name: 'MULTI-LINE-STRING'
-        //                            ),
-        //                            string(
-        //                                defaultValue: 'scriptcrunch',
-        //                                name: 'STRING-PARAMETER',
-        //                                trim: true
-        //                            )
-        //                        ])
-        //                    ])
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
         stage('Test') {
             steps {
                 script {
                     sh 'mvn clean test'
                     sh 'mvn clean install'
                 }
+            }
+        }
+        stage('Push on S3') {
+            steps {
+                sh """
+                    cd "$WORKSPACE/"
+                    echo $CLOUD_APP
+                    tar czf $CLOUD_APP.tgz bootstrap target/*-0.0.1-SNAPSHOT.jar
+                """
+            }
+        }
+        stage('Trigger build') {
+            steps {
+                build job: 'displayParams', parameters: [
+                        string(name: 'BUILD_NUMBER', value: $BUILD_NUMBER),
+                        string(name: 'ENV', value: $ENV),
+                        string(name: 'SPRINT', value: $SPRINT),
+                        string(name: 'BRANCH', value: $BRANCH),
+                ]
             }
         }
     }
@@ -72,6 +61,8 @@ pipeline {
             )
         }
     }
+}
+
 //        stage('Docker Build') {
 //            //dockerfile {
 //            //        filename 'Dockerfile.build'
@@ -103,4 +94,3 @@ pipeline {
 //                }
 //            }
 //        }
-}
